@@ -80,20 +80,51 @@ function App() {
   const fetchZipcodesForJobs = async (jobs) => {
     const newZipcodes = {};
     
+    // City name corrections/variations
+    const cityCorrections = {
+      'Fairlawn': 'Fairfield',
+      'Fair Lawn': 'Fairfield',
+      'Saint': 'St',  // St. Louis vs Saint Louis
+      'Mount': 'Mt',  // Mt. Vernon vs Mount Vernon
+      // Add more corrections as needed
+    };
+    
+    // Function to fetch with timeout
+    const fetchWithTimeout = (url, timeout = 5000) => {
+      return Promise.race([
+        fetch(url),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout')), timeout)
+        )
+      ]);
+    };
+    
     for (const job of jobs) {
-      const city = job.city;
+      let city = job.city;
       const state = job.state;
       
       if (city && state) {
+        // Apply city name corrections
+        const correctedCity = cityCorrections[city] || city;
+        
         try {
-          const response = await fetch(`https://api.zippopotam.us/us/${state}/${encodeURIComponent(city)}`);
+          const response = await fetchWithTimeout(`https://api.zippopotam.us/us/${state}/${encodeURIComponent(correctedCity)}`, 3000);
           if (response.ok) {
             const data = await response.json();
-            const zipcode = data.places[0]['post code'];
-            newZipcodes[`${city}-${state}`] = zipcode;
+            if (data.places && data.places.length > 0) {
+              const zipcode = data.places[0]['post code'];
+              newZipcodes[`${city}-${state}`] = zipcode; // Use original city name as key
+              console.log(`✅ Found ZIP code ${zipcode} for ${city}, ${state} (corrected to ${correctedCity})`);
+            }
+          } else {
+            console.log(`❌ No ZIP code found for ${city}, ${state} (tried ${correctedCity})`);
+            // Mark as not found so we don't keep trying
+            newZipcodes[`${city}-${state}`] = 'N/A';
           }
         } catch (error) {
-          console.log(`Could not fetch zipcode for ${city}, ${state}:`, error);
+          console.log(`❌ Error fetching zipcode for ${city}, ${state}:`, error.message);
+          // Mark as failed so we don't keep trying
+          newZipcodes[`${city}-${state}`] = 'N/A';
         }
       }
     }
@@ -195,7 +226,7 @@ function App() {
                     {job.city || 'City'}, {job.state || 'State'}
                   </p>
                   <p className="job-zipcode">
-                    Zipcode: {zipcode ? zipcode : 'Loading...'}
+                    Zipcode: {zipcode === 'N/A' ? 'Not Found' : (zipcode || 'Searching...')}
                   </p>
                   <p className="job-time">
                     {formatTimeAgo(job.posted_at)}
