@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GigMaps - Cyberpunk Design Test</title>
+    <title>GigMaps - Modern Design Test</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,23 +15,18 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            background: #0a0a0a;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 135, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 0, 135, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(0, 135, 255, 0.1) 0%, transparent 50%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            color: #e0e0e0;
+            color: #e8eaed;
             line-height: 1.6;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
         }
 
-        /* Animated background grid */
+        /* Subtle animated background */
         body::before {
             content: '';
             position: fixed;
@@ -39,32 +34,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 135, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 135, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid-move 20s linear infinite;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+            animation: gentle-pulse 8s ease-in-out infinite alternate;
             pointer-events: none;
             z-index: -1;
         }
 
-        @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        @keyframes gentle-pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
         }
 
         .container {
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(232, 234, 237, 0.05);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(0, 255, 135, 0.3);
-            border-radius: 0;
+            border: 1px solid rgba(232, 234, 237, 0.1);
+            border-radius: 20px;
             padding: 3rem;
-            box-shadow: 0 0 50px rgba(0, 255, 135, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 500px;
+            max-width: 400px;
             width: 90%;
             position: relative;
-            clip-path: polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%);
         }
 
         .container::before {
@@ -73,77 +66,46 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                #00ff87 20%, 
-                #ff0087 50%, 
-                #0087ff 80%, 
-                transparent 100%);
-            animation: scan-line 3s linear infinite;
-        }
-
-        @keyframes scan-line {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            height: 4px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 20px 20px 0 0;
         }
 
         h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: #00ff87;
-            text-shadow: 0 0 30px rgba(0, 255, 135, 0.5);
-            margin-bottom: 3rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            animation: glow-pulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow-pulse {
-            from { text-shadow: 0 0 30px rgba(0, 255, 135, 0.5); }
-            to { text-shadow: 0 0 50px rgba(0, 255, 135, 0.8), 0 0 70px rgba(0, 255, 135, 0.3); }
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
         }
 
         .app-tab {
-            background: rgba(0, 255, 135, 0.1);
-            color: #00ff87;
-            padding: 1.5rem 3rem;
-            border: 2px solid #00ff87;
-            border-radius: 0;
-            font-weight: 600;
-            font-size: 1.1rem;
-            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(0, 255, 135, 0.3);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
             display: inline-flex;
             align-items: center;
-            gap: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
-            animation: active-glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes active-glow {
-            from { box-shadow: 0 0 30px rgba(0, 255, 135, 0.3); }
-            to { box-shadow: 0 0 50px rgba(0, 255, 135, 0.6), inset 0 0 20px rgba(0, 255, 135, 0.1); }
+            gap: 0.5rem;
         }
 
         .app-tab:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 0 60px rgba(0, 255, 135, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
         }
 
         .app-icon {
-            font-size: 1.5rem;
-            animation: icon-float 3s ease-in-out infinite;
-        }
-
-        @keyframes icon-float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
+            font-size: 1.2rem;
         }
 
         .app-name {
