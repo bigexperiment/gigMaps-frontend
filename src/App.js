@@ -181,25 +181,29 @@ function App() {
           className={`app-tab ${currentApp === 'instacart' ? 'active' : ''}`}
           onClick={() => handleAppChange('instacart')}
         >
-          🛒 Instacart
+          <span className="tab-icon">🛒</span>
+          <span className="tab-name">Instacart</span>
         </button>
         <button 
           className={`app-tab ${currentApp === 'doordash' ? 'active' : ''}`}
           onClick={() => handleAppChange('doordash')}
         >
-          🚗 DoorDash
+          <span className="tab-icon">🚗</span>
+          <span className="tab-name">DoorDash</span>
         </button>
         <button 
           className={`app-tab ${currentApp === 'caviar' ? 'active' : ''}`}
           onClick={() => handleAppChange('caviar')}
         >
-          🍽️ Caviar
+          <span className="tab-icon">🍽️</span>
+          <span className="tab-name">Caviar</span>
         </button>
         <button 
           className={`app-tab ${currentApp === 'spark_delivery' ? 'active' : ''}`}
           onClick={() => handleAppChange('spark_delivery')}
         >
-          🛒 Spark Delivery
+          <span className="tab-icon">⚡</span>
+          <span className="tab-name">Spark Delivery</span>
         </button>
       </nav>
 
