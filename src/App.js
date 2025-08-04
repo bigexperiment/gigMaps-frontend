@@ -164,6 +164,12 @@ function App() {
         >
           🍽️ Caviar
         </button>
+        <button 
+          className={`app-tab ${currentApp === 'spark_delivery' ? 'active' : ''}`}
+          onClick={() => handleAppChange('spark_delivery')}
+        >
+          🛒 Spark Delivery
+        </button>
       </nav>
 
       {/* Jobs Section */}
