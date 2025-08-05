@@ -6,8 +6,32 @@
 const defaultConfig = {
     supabaseUrl: process.env.REACT_APP_SUPABASE_URL || '',
     supabaseKey: process.env.REACT_APP_SUPABASE_KEY || '',
-    jobsLimit: 9,
-    debug: false
+    jobsLimit: 10,
+    debug: false,
+    
+    // Strategic card distribution
+    cardDistribution: {
+        total: 10,
+        recentJobs: 4,  // Pro-gated fresh jobs (<10 hours)
+        olderJobs: 6    // Free jobs (>10 hours)
+    },
+    
+    // Pro Data Unlock configuration
+    pro: {
+        priceUSD: 19.99,
+        accessDurationDays: 3,
+        jobAgeThresholdHours: 10,
+        refundPolicy: {
+            enabled: true,
+            description: "Full refund if no gigs found in your zip code"
+        },
+        features: [
+            "See all fresh job locations instantly",
+            "Access to all zip codes and city data",
+            "3-day unlimited access",
+            "No gigs in your area? Full refund, no risk"
+        ]
+    }
 };
 
 // Debug: Log the Supabase URL
