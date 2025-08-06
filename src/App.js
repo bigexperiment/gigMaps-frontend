@@ -758,6 +758,7 @@ function App() {
                 <div className="feature-item">✓ Access to all zip codes and city data</div>
                 <div className="feature-item">✓ 3-day unlimited access</div>
                 <div className="feature-item">✓ No gigs in your area? Full refund, no risk</div>
+                <div className="feature-item">✓ App waitlisted you? Guaranteed refund or new code</div>
               </div>
               
               <p className="modal-disclaimer">
