@@ -26,6 +26,15 @@ function App() {
   // Page state
   const [currentPage, setCurrentPage] = useState('home'); // home, privacy, terms, contact
   const [expandedFaq, setExpandedFaq] = useState(null);
+  
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [submittingForm, setSubmittingForm] = useState(false);
 
   useEffect(() => {
     // Load config
@@ -178,6 +187,59 @@ function App() {
   // Handle Gumroad purchase (opens in new tab)
   const handleGumroadPurchase = () => {
     window.open('https://mazepool.gumroad.com/l/gigmaps', '_blank');
+  };
+
+  // Handle contact form input changes
+  const handleContactFormChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle contact form submission
+  const handleContactFormSubmit = async (e) => {
+    e.preventDefault();
+    setSubmittingForm(true);
+
+    try {
+      // Send to Formspree
+      const formspreeResponse = await fetch('https://formspree.io/f/xovlkdal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactForm)
+      });
+
+      // Send notification to ntfy.sh
+      const ntfyMessage = `${contactForm.email} sent a message about "${contactForm.subject}"\n\nFrom: ${contactForm.name}\nMessage: ${contactForm.message}`;
+      
+      await fetch('https://ntfy.sh/dhikurpokhari', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: ntfyMessage
+      });
+
+      // Reset form on success
+      setContactForm({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+
+      alert('Message sent successfully! We\'ll get back to you within 24 hours.');
+      
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('There was an error sending your message. Please try again or email us directly at hi@gigmaps.co');
+    } finally {
+      setSubmittingForm(false);
+    }
   };
 
   // Handle show unlock button click
@@ -579,24 +641,58 @@ function App() {
             </div>
           </div>
           
-          <form className="contact-form" action="https://formspree.io/f/xovlkdal" method="POST">
+          <form className="contact-form" onSubmit={handleContactFormSubmit}>
             <div className="form-group">
               <label htmlFor="name">Name</label>
-              <input type="text" id="name" name="name" required />
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                value={contactForm.name}
+                onChange={handleContactFormChange}
+                required 
+                disabled={submittingForm}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" required />
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value={contactForm.email}
+                onChange={handleContactFormChange}
+                required 
+                disabled={submittingForm}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="subject">Subject</label>
-              <input type="text" id="subject" name="subject" required />
+              <input 
+                type="text" 
+                id="subject" 
+                name="subject" 
+                value={contactForm.subject}
+                onChange={handleContactFormChange}
+                required 
+                disabled={submittingForm}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="message">Message</label>
-              <textarea id="message" name="message" rows="5" required></textarea>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows="5" 
+                value={contactForm.message}
+                onChange={handleContactFormChange}
+                required 
+                disabled={submittingForm}
+              ></textarea>
             </div>
-            <button type="submit" className="submit-button">Send Message</button>
+            <button type="submit" className="submit-button" disabled={submittingForm}>
+              {submittingForm ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </div>
       </div>
